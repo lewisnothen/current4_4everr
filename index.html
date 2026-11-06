@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Current 4 – Flood Awareness for Taungoo</title>
+
+    <link rel="icon" type="image/x-icon" href="Current 4 logo with bg  copy.png">
+    <style>
+        :root {
+            --blue: #4a90c2;
+            --blue-d: #2f6f9f;
+            --blue-l: #e6f2fa;
+            --blue-m: #bfdcf0;
+            --ink: #1f3447;
+            --white: #fff;
+            box-sizing: border-box;
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: env(safe-area-inset-bottom, 0px)
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: env(safe-area-inset-top, 0px)
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, Arial, sans-serif;
+            color: var(--ink);
+            background: var(--white);
+            line-height: 1.65
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit
+        }
+
+        .wrap {
+            max-width: 1100px;
+            margin: auto;
+            padding: 0 20px
+        }
+
+        /* nav */
+        header {
+            position: sticky;
+            top: env(safe-area-inset-top, 0px);
+            z-index: 10;
+            background: var(--white);
+            box-shadow: 0 2px 12px rgba(47, 111, 159, .15)
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 66px
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--blue-d)
+        }
+
+        .brand svg {
+            width: 36px;
+            height: 36px
+        }
+
+        .links {
+            display: flex;
+            gap: 6px;
+            list-style: none;
+            padding: 0
+        }
+
+        .links a {
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: .95rem
+        }
+
+        .links a:hover,
+        .links a.on {
+            background: var(--blue-l);
+            color: var(--blue-d)
+        }
+
+        #burger {
+            display: none;
+            background: none;
+            border: 0;
+            font-size: 1.8rem;
+            color: var(--blue-d);
+            cursor: pointer
+        }
+
+        /* hero */
+        .hero {
+            position: relative;
+            min-height: 80vh;
+            display: grid;
+            place-items: center;
+            text-align: center;
+            color: #fff;
+            overflow: hidden;
+            background: linear-gradient(160deg, #2f6f9f 0%, #4a90c2 55%, #8cc3e6 100%)
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, .25), transparent 40%), radial-gradient(circle at 85% 70%, rgba(255, 255, 255, .18), transparent 45%)
+        }
+
+        .hero svg.wave {
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 110px
+        }
+
+        .hero .box {
+            position: relative;
+            padding: 60px 20px 140px;
+            max-width: 760px
+        }
+
+        .tag {
+            display: inline-block;
+            background: rgba(255, 255, 255, .2);
+            border: 1px solid rgba(255, 255, 255, .5);
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: .9rem;
+            margin-bottom: 16px
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 6vw, 3.6rem);
+            line-height: 1.15;
+            margin-bottom: 16px
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            margin-bottom: 28px;
+            opacity: .95
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-weight: 700;
+            background: #fff;
+            color: var(--blue-d);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, .2);
+            transition: .2s
+        }
+
+        .btn:hover {
+            transform: translateY(-2px)
+        }
+
+        .btn.ghost {
+            background: transparent;
+            color: #fff;
+            border: 2px solid #fff;
+            margin-left: 10px;
+            box-shadow: none
+        }
+
+        /* sections */
+        section {
+            padding: 70px 0
+        }
+
+        h2 {
+            font-size: clamp(1.6rem, 4vw, 2.2rem);
+            color: var(--blue-d);
+            margin-bottom: 10px
+        }
+
+        .sub {
+            max-width: 640px;
+            margin-bottom: 34px
+        }
+
+        .intro {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            gap: 34px;
+            align-items: center
+        }
+
+        .stats {
+            display: grid;
+            gap: 14px
+        }
+
+        .stat {
+            background: var(--blue-l);
+            border-left: 5px solid var(--blue);
+            padding: 16px 20px;
+            border-radius: 12px
+        }
+
+        .stat b {
+            display: block;
+            font-size: 1.15rem;
+            color: var(--blue-d)
+        }
+
+        .alt {
+            background: var(--blue-l)
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 22px
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 18px;
+            padding: 28px 24px;
+            box-shadow: 0 8px 24px rgba(47, 111, 159, .12);
+            border-top: 5px solid var(--blue);
+            transition: .2s;
+            display: block
+        }
+
+        a.card:hover {
+            transform: translateY(-6px)
+        }
+
+        .pic {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin-bottom: 14px;
+            background: var(--blue-l)
+        }
+
+        .fig {
+            margin-top: 22px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(47, 111, 159, .18);
+            
+        }
+
+        .fig svg {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .skyline {
+            position: absolute;
+            bottom: 50px;
+            left: 0;
+            width: 100%;
+            height: 130px;
+            opacity: .3;
+            pointer-events: none
+        }
+
+        .ico {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--blue-m);
+            display: grid;
+            place-items: center;
+            margin-bottom: 14px
+        }
+
+        .ico svg {
+            width: 30px;
+            height: 30px;
+            stroke: var(--blue-d);
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round
+        }
+
+        .card h3 {
+            color: var(--blue-d);
+            margin-bottom: 6px
+        }
+
+        .more {
+            display: inline-block;
+            margin-top: 10px;
+            font-weight: 700;
+            color: var(--blue)
+        }
+
+        .steps {
+            counter-reset: s
+        }
+
+        .steps .card {
+            position: relative;
+            padding-top: 44px
+        }
+
+        .steps .card::before {
+            counter-increment: s;
+            content: counter(s);
+            position: absolute;
+            top: -18px;
+            left: 22px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--blue);
+            color: #fff;
+            display: grid;
+            place-items: center;
+            font-weight: 700
+        }
+
+        .steps {
+            margin-top: 18px
+        }
+
+        .cta {
+            background: linear-gradient(135deg, var(--blue-d), var(--blue));
+            color: #fff;
+            text-align: center
+        }
+
+        .cta h2 {
+            color: #fff
+        }
+
+        /* footer */
+        footer {
+            background: var(--blue-d);
+            color: #fff;
+            padding: 46px 0 20px
+        }
+
+        .fgrid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 30px;
+            align-items: start
+        }
+
+        footer .brand {
+            color: #fff
+        }
+
+        footer p {
+            opacity: .85;
+            font-size: .92rem;
+            margin-top: 10px
+        }
+
+        .social {
+            display: flex;
+            gap: 12px;
+            justify-content: center
+        }
+
+        .social a {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .18);
+            display: grid;
+            place-items: center
+        }
+
+        .social a:hover {
+            background: #fff
+        }
+
+        .social svg {
+            width: 20px;
+            height: 20px;
+            fill: #fff
+        }
+
+        .social a:hover svg {
+            fill: var(--blue-d)
+        }
+
+        .quick h4 {
+            margin-bottom: 8px
+        }
+
+        .quick ul {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px 16px
+        }
+
+        .quick a {
+            opacity: .9
+        }
+
+        .quick a:hover {
+            text-decoration: underline
+        }
+
+        .copy {
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, .25);
+            margin-top: 30px;
+            padding-top: 16px;
+            font-size: .85rem;
+            opacity: .85
+        }
+
+        /* responsive */
+        @media(max-width:820px) {
+            #burger {
+                display: block
+            }
+
+            .links {
+                position: absolute;
+                top: 66px;
+                left: 0;
+                right: 0;
+                background: #fff;
+                flex-direction: column;
+                padding: 10px 20px 18px;
+                box-shadow: 0 10px 16px rgba(47, 111, 159, .15);
+                display: none
+            }
+
+            .links.open {
+                display: flex
+            }
+
+            .intro,
+            .fgrid {
+                grid-template-columns: 1fr
+            }
+
+            .social {
+                justify-content: flex-start
+            }
+
+            section {
+                padding: 50px 0
+            }
+
+            .btn.ghost {
+                margin: 10px 0 0
+            }
+        }
+
+        .langsw {
+            display: flex;
+            background: var(--blue-l);
+            border-radius: 24px;
+            padding: 3px;
+            margin-left: 10px
+        }
+
+        .langsw button {
+            border: 0;
+            background: transparent;
+            font: inherit;
+            font-size: .85rem;
+            font-weight: 700;
+            color: var(--blue-d);
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer
+        }
+
+        .langsw button.on {
+            background: var(--blue);
+            color: #fff
+        }
+
+        .langhero {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 22px;
+            font-size: .85rem
+        }
+
+        .langpick {
+            display: flex;
+            background: rgba(255, 255, 255, .2);
+            border: 1px solid rgba(255, 255, 255, .6);
+            border-radius: 40px;
+            padding: 4px
+        }
+
+        .lb {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 0;
+            background: transparent;
+            color: #fff;
+            font: inherit;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 8px 22px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: .2s
+        }
+
+        .lb svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2
+        }
+
+        .lb.on {
+            background: #fff;
+            color: #2f6f9f;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .2)
+        }
+
+        html[lang=my] body {
+            font-family: 'Noto Sans Myanmar', 'Padauk', 'Myanmar Text', 'Segoe UI', sans-serif;
+            line-height: 1.9
+        }
+
+        html[lang=my] h1,
+        html[lang=my] h2,
+        html[lang=my] h3 {
+            line-height: 1.6
+        }
+
+        @media(max-width:820px) {
+            .langsw {
+                margin-left: auto;
+                margin-right: 8px
+            }
+
+            #burger {
+                order: 3
+            }
+        }
+
+        .curr-logo {
+            width: 60px;
+        }
+
+        .img-des{
+            border-radius: 25px;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar:wght@400;600;700&amp;display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <div class="wrap">
+            <nav>
+                <a class="brand" href="index.html">
+                    <img src="Current 4 logo.png" alt="" width="100%" class="curr-logo">
+                    Current 4</a>
+                <button id="burger" aria-label="Menu">&#9776;</button>
+                <ul class="links" id="links">
+                    <li><a class="on" href="index.html"><span data-en="Home" data-my="ပင်မစာမျက်နှာ">Home</span></a>
+                    </li>
+                    <li><a href="about.html"><span data-en="About us" data-my="ကျွန်ုပ်တို့အကြောင်း">About us</span></a>
+                    </li>
+                    <li><a href="causes.html"><span data-en="Main Causes" data-my="အဓိကအကြောင်းရင်းများ">Main
+                                Causes</span></a></li>
+                    <li><a href="preparedness.html"><span data-en="Emergency Preparation"
+                                data-my="ကြိုတင်ပြင်ဆင်မှု">Emergency Preparation</span></a></li>
+                    <li><a href="techniques.html"><span data-en="Techniques"
+                                data-my="နည်းလမ်းများ">Techniques</span></a></li>
+                </ul>
+                <div class="langsw" role="group" aria-label="Language"><button data-l="en">EN</button><button
+                        data-l="my">မြန်မာ</button></div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="hero">
+        <svg class="skyline" viewBox="0 0 1200 130" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+            <g fill="#fff">
+                <path d="M60 70l40-30 40 30v30H60z" />
+                <path d="M200 80l35-26 35 26v20h-70z" />
+                <path d="M360 66l45-34 45 34v34h-90z" />
+                <path d="M540 82l32-24 32 24v18h-64z" />
+                <path d="M700 68l42-32 42 32v32h-84z" />
+                <path d="M880 80l36-27 36 27v20h-72z" />
+                <path d="M1040 70l40-30 40 30v30h-80z" />
+                <path d="M0 100q100-14 200 0t200 0 200 0 200 0 200 0 200 0v30H0z" />
+            </g>
+        </svg>
+        <div class="box">
+            <div class="langhero"><span data-en="Choose your language" data-my="ဘာသာစကား ရွေးချယ်ပါ">Choose your
+                    language</span>
+                <div class="langpick" role="group" aria-label="Language"><button class="lb" data-l="en"><svg
+                            viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="9" />
+                            <path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18" />
+                        </svg> English</button><button class="lb" data-l="my"><svg viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="9" />
+                            <path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18" />
+                        </svg> မြန်မာ</button></div>
+            </div>
+            <span class="tag"><span data-en="Disaster Risk Reduction · Taungoo, Myanmar"
+                    data-my="ဘေးအန္တရာယ်လျှော့ချရေး · တောင်ငူမြို့၊ မြန်မာနိုင်ငံ">Disaster Risk Reduction · Taungoo,
+                    Myanmar</span></span>
+            <h1><span data-en="Be Ready Before the Water Rises" data-my="ရေမတက်ခင် အဆင်သင့်ဖြစ်ပါ">Be Ready Before the
+                    Water Rises</span></h1>
+            <p><span data-en="Flood awareness and preparedness guides for families living along the river. Small steps today can protect your home, your belongings and your loved ones."
+                    data-my="မြစ်ကမ်းနံဘေးနေ အိမ်ထောင်စုများအတွက် ရေကြီးမှုဆိုင်ရာ အသိပညာနှင့် ကြိုတင်ပြင်ဆင်ရေး လမ်းညွှန်ချက်များ။ ယနေ့ လုပ်ဆောင်သော အနည်းငယ်သော အဆင့်များက သင့်အိမ်၊ ပစ္စည်းများနှင့် ချစ်ခင်ရသူများကို ကာကွယ်ပေးနိုင်သည်။">Flood
+                    awareness and preparedness guides for families living along the river. Small steps today can protect
+                    your home, your belongings and your loved ones.</span></p>
+            <a class="btn" href="preparedness.html"><span data-en="Get Prepared" data-my="ပြင်ဆင်ကြပါစို့">Get
+                    Prepared</span></a><a class="btn ghost" href="#intro"><span data-en="Learn More"
+                    data-my="ပိုမိုလေ့လာရန်">Learn More</span></a>
+        </div>
+        <svg class="wave" viewBox="0 0 1440 110" preserveAspectRatio="none">
+            <path fill="#fff" d="M0 60C240 110 480 10 720 50s480 60 720 0v60H0z" />
+        </svg>
+    </div>
+
+    <section id="intro">
+        <div class="wrap intro">
+            <div>
+                <h2><span data-en="What Is a Flood?" data-my="ရေကြီးခြင်းဆိုတာ ဘာလဲ?">What Is a Flood?</span></h2>
+                <p><span data-en="A flood happens when water covers land that is normally dry. Rivers can overflow after heavy monsoon rain, when drains are blocked, or when water is released from upstream. Floods can come slowly over days or very suddenly, and they are one of the most common natural disasters in Myanmar."
+                        data-my="ပုံမှန်အားဖြင့် ခြောက်သွေ့နေသော မြေပေါ်သို့ ရေလွှမ်းမိုးလာခြင်းကို ရေကြီးခြင်းဟု ခေါ်သည်။ မုတ်သုံမိုးသည်းထန်စွာ ရွာပြီးနောက်၊ မြောင်းများပိတ်ဆို့သောအခါ သို့မဟုတ် အထက်ပိုင်းမှ ရေလွှတ်သောအခါ မြစ်များ ပြည့်လျှံနိုင်သည်။ ရေကြီးခြင်းသည် ရက်ပေါင်းများစွာအတွင်း ဖြည်းဖြည်းလာနိုင်သလို ရုတ်တရက်လည်း ရောက်လာနိုင်ပြီး မြန်မာနိုင်ငံတွင် အဖြစ်အများဆုံး သဘာဝဘေးအန္တရာယ်များထဲမှ တစ်ခုဖြစ်သည်။">A
+                        flood happens when water covers land that is normally dry. Rivers can overflow after heavy
+                        monsoon rain, when drains are blocked, or when water is released from upstream. Floods can come
+                        slowly over days or very suddenly, and they are one of the most common natural disasters in
+                        Myanmar.</span></p>
+
+                <p style="margin-top:12px"><span
+                        data-en="Taungoo is a town in the Bago Region near the Sittaung River, so households close to the riverbank can be affected when the water level rises during the rainy season. Knowing the risks and planning ahead helps people stay safe."
+                        data-my="တောင်ငူမြို့သည် စစ်တောင်းမြစ်အနီး ပဲခူးတိုင်းဒေသကြီးတွင် တည်ရှိသောကြောင့် မိုးရာသီတွင် ရေမြင့်လာပါက မြစ်ကမ်းနံဘေးရှိ အိမ်ထောင်စုများ ထိခိုက်နိုင်သည်။ အန္တရာယ်များကို သိရှိပြီး ကြိုတင်စီစဉ်ထားခြင်းက လူတို့ကို ဘေးကင်းစေသည်။">Taungoo
+                        is a town in the Bago Region near the Sittaung River, so households close to the riverbank can
+                        be affected when the water level rises during the rainy season. Knowing the risks and planning
+                        ahead helps people stay safe.</span></p>
+                        
+                <div class="fig">
+                    <img src="Flood home .jpg" alt="" width="100%" class="w-80">
+                </div>
+            </div>
+            <div class="stats">
+                <div class="stat"><b><span data-en="Know the risk" data-my="အန္တရာယ်ကို သိပါ">Know the
+                            risk</span></b><span data-en="Understand why rivers overflow"
+                        data-my="မြစ်များ အဘယ်ကြောင့် ပြည့်လျှံသည်ကို နားလည်ပါ">Understand why rivers overflow</span>
+                </div>
+                <div class="stat"><b><span data-en="Make a plan" data-my="စီမံချက် ရေးဆွဲပါ">Make a plan</span></b><span
+                        data-en="Prepare your family and home early"
+                        data-my="မိသားစုနှင့် အိမ်ကို ကြိုတင်ပြင်ဆင်ပါ">Prepare your family and home early</span></div>
+                <div class="stat"><b><span data-en="Recover smartly" data-my="ပညာရှိစွာ ပြန်လည်ထူထောင်ပါ">Recover
+                            smartly</span></b><span data-en="Reduce the damage after the water goes down"
+                        data-my="ရေကျပြီးနောက် ပျက်စီးမှုကို လျှော့ချပါ">Reduce the damage after the water goes
+                        down</span></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="alt">
+        <div class="wrap">
+            <h2><span data-en="Explore Our Guides" data-my="ကျွန်ုပ်တို့၏ လမ်းညွှန်များကို လေ့လာပါ">Explore Our
+                    Guides</span></h2>
+            <p class="sub"><span data-en="Choose a topic to learn more. Each page is written for riverside households."
+                    data-my="ပိုမိုလေ့လာရန် ခေါင်းစဉ်တစ်ခု ရွေးပါ။ စာမျက်နှာတိုင်းကို မြစ်ကမ်းနံဘေးနေ အိမ်ထောင်စုများအတွက် ရေးသားထားသည်။">Choose
+                    a topic to learn more. Each page is written for riverside households.</span></p>
+            <div class="grid">
+                <a class="card" href="causes.html">
+                    <img src="Heavy rainfall.jpg" alt="" width="100%" class="img-des">
+
+                    <div class="ico"><svg viewBox="0 0 24 24">
+                            <path d="M7 16a4 4 0 010-8 5 5 0 019.5-1A4.5 4.5 0 0117 16z" />
+                            <path d="M8 19l-1 2M12 19l-1 2M16 19l-1 2" />
+                        </svg></div>
+                    <h3><span data-en="Main Causes" data-my="အဓိကအကြောင်းရင်းများ">Main Causes</span></h3>
+                    <p><span data-en="Heavy monsoon rain, river overflow, blocked drains and deforestation."
+                            data-my="မုတ်သုံမိုးသည်းထန်စွာရွာခြင်း၊ မြစ်ပြည့်လျှံခြင်း၊ မြောင်းပိတ်ဆို့ခြင်းနှင့် သစ်တောပြုန်းတီးခြင်း။">Heavy
+                            monsoon rain, river overflow, blocked drains and deforestation.</span></p><span
+                        class="more"><span data-en="Read more →" data-my="ပိုမိုဖတ်ရန် →">Read more →</span></span>
+                </a>
+                <a class="card" href="preparedness.html">
+                    <img src="Prepardness.jpeg" alt="" width="100%" class="img-des">
+                    <div class="ico"><svg viewBox="0 0 24 24">
+                            <path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z" />
+                            <path d="M9 12l2 2 4-4" />
+                        </svg></div>
+                    <h3><span data-en="Preparedness" data-my="ကြိုတင်ပြင်ဆင်မှု">Preparedness</span></h3>
+                    <p><span data-en="Emergency kits, family plans, evacuation routes and early warnings."
+                            data-my="အရေးပေါ်အထုပ်၊ မိသားစုစီမံချက်၊ ထွက်ခွာလမ်းကြောင်းနှင့် ကြိုတင်သတိပေးချက်များ။">Emergency
+                            kits, family plans, evacuation routes and early warnings.</span></p><span class="more"><span
+                            data-en="Read more →" data-my="ပိုမိုဖတ်ရန် →">Read more →</span></span>
+                </a>
+
+                <a class="card" href="techniques.html">
+                    <img src="Techniques.webp" alt="" width="100%" class="img-des">
+                    <div class="ico"><svg viewBox="0 0 24 24">
+                            <path d="M14.7 6.3a4 4 0 00-5 5L3 18l3 3 6.7-6.7a4 4 0 005-5l-2.5 2.5-2.2-2.2z" />
+                        </svg></div>
+                    <h3><span data-en="Techniques" data-my="နည်းလမ်းများ">Techniques</span></h3>
+                    <p><span data-en="Practical ways to protect your house, food, water and valuables."
+                            data-my="အိမ်၊ အစားအစာ၊ ရေနှင့် တန်ဖိုးရှိပစ္စည်းများကို ကာကွယ်ရန် လက်တွေ့နည်းလမ်းများ။">Practical
+                            ways to protect your house, food, water and valuables.</span></p><span class="more"><span
+                            data-en="Read more →" data-my="ပိုမိုဖတ်ရန် →">Read more →</span></span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="wrap">
+            <h2><span data-en="After the Flood: Basic Solutions"
+                    data-my="ရေကြီးပြီးနောက် - အခြေခံ ဖြေရှင်းနည်းများ">After the Flood: Basic Solutions</span></h2>
+            <p class="sub"><span
+                    data-en="When the water goes down, careful action reduces health risks and long-term damage."
+                    data-my="ရေကျသောအခါ ဂရုတစိုက် လုပ်ဆောင်ခြင်းက ကျန်းမာရေးအန္တရာယ်နှင့် ရေရှည်ပျက်စီးမှုကို လျှော့ချပေးသည်။">When
+                    the water goes down, careful action reduces health risks and long-term damage.</span></p>
+            <div class="grid steps">
+                <div class="card">
+                    <h3><span data-en="Wait for the all-clear" data-my="ဘေးကင်းကြောင်း ကြေညာသည်အထိ စောင့်ပါ">Wait for
+                            the all-clear</span></h3>
+                    <p><span data-en="Return home only when local authorities say it is safe. Avoid floodwater, which can hide sharp objects and electric hazards."
+                            data-my="ဒေသအာဏာပိုင်များက ဘေးကင်းသည်ဟု ပြောမှသာ အိမ်ပြန်ပါ။ ရေအောက်တွင် ထက်မြက်သောအရာများနှင့် လျှပ်စစ်အန္တရာယ် ပုန်းကွယ်နေနိုင်သောကြောင့် ရေကြီးရေကို ရှောင်ပါ။">Return
+                            home only when local authorities say it is safe. Avoid floodwater, which can hide sharp
+                            objects and electric hazards.</span></p>
+                </div>
+                <div class="card">
+                    <h3><span data-en="Switch off power" data-my="လျှပ်စစ်မီး ပိတ်ပါ">Switch off power</span></h3>
+                    <p><span data-en="Do not use electricity or gas appliances until they are checked by a qualified person."
+                            data-my="အရည်အချင်းရှိသူ စစ်ဆေးပေးမှသာ လျှပ်စစ်နှင့် ဓာတ်ငွေ့ပစ္စည်းများကို သုံးပါ။">Do not
+                            use electricity or gas appliances until they are checked by a qualified person.</span></p>
+                </div>
+                <div class="card">
+                    <h3><span data-en="Clean and disinfect" data-my="သန့်ရှင်းရေးလုပ်ပြီး ပိုးသတ်ပါ">Clean and
+                            disinfect</span></h3>
+                    <p><span data-en="Remove mud, wash walls and floors, and dry rooms well to prevent mould and disease."
+                            data-my="ရွှံ့မျ ားကို ရှင်းလင်းပြီး နံရံနှင့် ကြမ်းပြင်များကို ဆေးကြောကာ မှိုနှင့် ရောဂါမဖြစ်စေရန် အခန်းများကို ကောင်းစွာ အခြောက်ခံပါ။">Remove
+                            mud, wash walls and floors, and dry rooms well to prevent mould and disease.</span></p>
+                </div>
+                <div class="card">
+                    <h3><span data-en="Drink safe water" data-my="ဘေးကင်းသော ရေသောက်ပါ">Drink safe water</span></h3>
+                    <p><span data-en="Boil drinking water or use purification tablets. Throw away food that touched floodwater."
+                            data-my="သောက်ရေကို ကျိုပါ သို့မဟုတ် ရေသန့်စင်ဆေးပြား သုံးပါ။ ရေကြီးရေနှင့် ထိတွေ့ခဲ့သော အစားအစာကို စွန့်ပစ်ပါ။">Boil
+                            drinking water or use purification tablets. Throw away food that touched floodwater.</span>
+                    </p>
+                </div>
+                <div class="card">
+                    <h3><span data-en="Document damage" data-my="ပျက်စီးမှုများကို မှတ်တမ်းတင်ပါ">Document damage</span>
+                    </h3>
+                    <p><span data-en="Take photos and make a list of losses so you can ask for help from local relief groups."
+                            data-my="ဓာတ်ပုံရိုက်ပြီး ဆုံးရှုံးမှုစာရင်းရေးကာ ဒေသဆိုင်ရာ ကယ်ဆယ်ရေးအဖွဲ့များထံ အကူအညီတောင်းပါ။">Take
+                            photos and make a list of losses so you can ask for help from local relief groups.</span>
+                    </p>
+                </div>
+                <div class="card">
+                    <h3><span data-en="Help each other" data-my="အချင်းချင်း ကူညီပါ">Help each other</span></h3>
+                    <p><span data-en="Check on neighbours, the elderly and children, and share tools, food and information."
+                            data-my="အိမ်နီးချင်း၊ သက်ကြီးရွယ်အိုနှင့် ကလေးများကို ကြည့်ရှုပြီး ကိရိယာ၊ အစားအစာနှင့် သတင်းအချက်အလက်များ မျှဝေပါ။">Check
+                            on neighbours, the elderly and children, and share tools, food and information.</span></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="alt">
+        <div class="wrap">
+            <h2><span data-en="Simple Flood Techniques" data-my="ရိုးရှင်းသော ရေကြီးကာကွယ်နည်းများ">Simple Flood
+                    Techniques</span></h2>
+            <p class="sub"><span data-en="Low-cost ideas that households can use before and during a flood."
+                    data-my="ရေမကြီးမီနှင့် ရေကြီးနေစဉ် အိမ်ထောင်စုများ သုံးနိုင်သော ကုန်ကျစရိတ်နည်းသည့် အကြံဉာဏ်များ။">Low-cost
+                    ideas that households can use before and during a flood.</span></p>
+            <div class="grid">
+                <div class="card">
+                    <h3><span data-en="Raise valuables" data-my="တန်ဖိုးရှိပစ္စည်းများကို မြှင့်တင်ထားပါ">Raise
+                            valuables</span></h3>
+                    <p><span data-en="Keep documents, electronics and food on high shelves or upper floors in waterproof bags."
+                            data-my="စာရွက်စာတမ်း၊ အီလက်ထရွန်နစ်နှင့် အစားအစာကို ရေစိုခံအိတ်ထဲထည့်ကာ စင်မြင့်များ သို့မဟုတ် အပေါ်ထပ်တွင် ထားပါ။">Keep
+                            documents, electronics and food on high shelves or upper floors in waterproof bags.</span>
+                    </p>
+                </div>
+                <div class="card">
+                    <h3><span data-en="Sandbags and barriers" data-my="သဲအိတ်နှင့် တားဆီးကာများ">Sandbags and
+                            barriers</span></h3>
+                    <p><span data-en="Place sandbags at doors and low openings to slow water from entering."
+                            data-my="တံခါးနှင့် နိမ့်သောအဖွင့်များတွင် သဲအိတ်ထားပြီး ရေဝင်မှုကို နှေးစေပါ။">Place
+                            sandbags at doors and low openings to slow water from entering.</span></p>
+                </div>
+                <div class="card">
+                    <h3><span data-en="Keep drains clear" data-my="မြောင်းများ သန့်ရှင်းနေစေပါ">Keep drains clear</span>
+                    </h3>
+                    <p><span data-en="Remove rubbish from drains and ditches around the home so water can flow away."
+                            data-my="ရေစီးဆင်းနိုင်ရန် အိမ်ပတ်ဝန်းကျင်ရှိ မြောင်းများမှ အမှိုက်များကို ရှင်းလင်းပါ။">Remove
+                            rubbish from drains and ditches around the home so water can flow away.</span></p>
+                </div>
+                <div class="card">
+                    <h3><span data-en="Go-bag ready" data-my="အရေးပေါ်အိတ် အဆင်သင့်ထားပါ">Go-bag ready</span></h3>
+                    <p><span data-en="Pack water, food, medicine, a torch, radio and copies of IDs in one easy-to-grab bag."
+                            data-my="ရေ၊ အစားအစာ၊ ဆေး၊ ဓာတ်မီး၊ ရေဒီယိုနှင့် မှတ်ပုံတင်မိတ္တူများကို ယူရလွယ်သော အိတ်တစ်လုံးတွင် ထည့်ထားပါ။">Pack
+                            water, food, medicine, a torch, radio and copies of IDs in one easy-to-grab bag.</span></p>
+                </div>
+            </div>
+            <p style="text-align:center;margin-top:28px"><a class="btn" style="background:var(--blue);color:#fff"
+                    href="techniques.html"><span data-en="See all techniques" data-my="နည်းလမ်းအားလုံး ကြည့်ရန်">See all
+                        techniques</span></a></p>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="wrap">
+            <h2><span data-en="Prepared Families Are Safer Families"
+                    data-my="ပြင်ဆင်ထားသော မိသားစုများသည် ပိုမိုဘေးကင်းသည်">Prepared Families Are Safer Families</span>
+            </h2>
+            <p style="margin-bottom:22px"><span
+                    data-en="Share this website with your neighbours and help our community stay ready."
+                    data-my="ဤဝက်ဘ်ဆိုက်ကို အိမ်နီးချင်းများနှင့် မျှဝေပြီး ကျွန်ုပ်တို့ရပ်ရွာကို အဆင်သင့်ဖြစ်စေရန် ကူညီပါ။">Share
+                    this website with your neighbours and help our community stay ready.</span></p>
+            <a class="btn" href="about.html"><span data-en="Meet Team Current 4"
+                    data-my="Current 4 အဖွဲ့ကို တွေ့ဆုံပါ">Meet Team Current 4</span></a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="wrap">
+            <div class="fgrid">
+                <div>
+                    <a class="brand" href="index.html">
+                        <img src="Current 4 with bg.png" alt="" width="100%" class="curr-logo">
+                        Current 4</a>
+                    <p><span data-en="Raising flood awareness for riverside households in Taungoo, Myanmar."
+                            data-my="မြန်မာနိုင်ငံ၊ တောင်ငူမြို့ မြစ်ကမ်းနံဘေးနေ အိမ်ထောင်စုများအတွက် ရေကြီးမှုဆိုင်ရာ အသိပညာ မြှင့်တင်ခြင်း။">Raising
+                            flood awareness for riverside households in Taungoo, Myanmar.</span></p>
+                </div>
+                <div class="social">
+                    <a href="https://www.facebook.com/share/1AA3Ri9s5u/?mibextid=wwXIfr" aria-label="Facebook"><svg viewBox="0 0 24 24">
+                            <path
+                                d="M13 22v-8h3l.5-3.5H13V8.3c0-1 .3-1.8 1.8-1.8H16.6V3.4C16.3 3.4 15.2 3.3 14 3.3c-2.6 0-4.3 1.600-4.3 4.500v2.700H7V14h2.700v8z" />
+                        </svg></a>
+                    <a href="https://www.tiktok.com/@current.434?is_from_webapp=1&sender_device=pc" aria-label="Tiktok"><svg viewBox="0 0 24 24">
+                            <path
+                                d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.82.56-1.36 1.5-1.41 2.49-.1 1.38.65 2.72 1.87 3.32.95.49 2.11.45 3.03-.07.96-.52 1.58-1.54 1.64-2.63.02-3.79.01-7.58.01-11.37z"/>
+                        </svg></a>
+                    <a href="https://youtube.com/@currentfour?si=FtkJ6qoQiKNhgwS5" aria-label="YouTube"><svg viewBox="0 0 24 24">
+                            <path
+                                d="M21.600 7.200a2.500 2.500 0 00-1.800-1.800C18.200 5 12 5 12 5s-6.200 0-7.800.4A2.500 2.500 0 002.400 7.200C2 8.800 2 12 2 12s0 3.200.4 4.800a2.500 2.500 0 001.800 1.800C5.800 19 12 19 12 19s6.200 0 7.800-.4a2.500 2.500 0 001.800-1.800C22 15.200 22 12 22 12s0-3.200-.4-4.800zM10 15V9l5.200 3z" />
+                        </svg></a>
+                    <a href="current4project@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24">
+                            <path
+                                d="M3 5h18a1 1 0 011 1v12a1 1 0 01-1 1H3a1 1 0 01-1-1V6a1 1 0 011-1zm9 7L4 7.500V17h16V7.500z" />
+                        </svg></a>
+                </div>
+                <div class="quick">
+                    <h4><span data-en="Quick Links" data-my="အမြန်လင့်ခ်များ">Quick Links</span></h4>
+                    <ul>
+                        <li><a href="index.html"><span data-en="Home" data-my="ပင်မစာမျက်နှာ">Home</span></a></li>
+                        <li><a href="about.html"><span data-en="About us" data-my="ကျွန်ုပ်တို့အကြောင်း">About
+                                    us</span></a></li>
+                        <li><a href="causes.html"><span data-en="Main Causes" data-my="အဓိကအကြောင်းရင်းများ">Main
+                                    Causes</span></a></li>
+                        <li><a href="preparedness.html"><span data-en="Emergency Preparation"
+                                    data-my="ကြိုတင်ပြင်ဆင်မှု">Emergency Preparation</span></a></li>
+                        <li><a href="techniques.html"><span data-en="Techniques"
+                                    data-my="နည်းလမ်းများ">Techniques</span></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copy"><span data-en="© 2026 Current 4 · Disaster Risk Reduction  · Taungoo, Myanmar"
+                    data-my="© ၂၀၂၆ Current 4 · ဘေးအန္တရာယ်လျှော့ချရေး · တောင်ငူမြို့၊ မြန်မာနိုင်ငံ">© 2026 Current
+                    4 · Disaster Risk Reduction · Taungoo, Myanmar</span></div>
+        </div>
+    </footer>
+
+    <script>(function () {
+            var b = document.getElementById('burger'), l = document.getElementById('links');
+            if (b && l) { b.addEventListener('click', function () { l.classList.toggle('open') }); }
+            function get() { try { return localStorage.getItem('lang') || 'en' } catch (e) { return 'en' } }
+            function apply(g) {
+                document.documentElement.lang = (g === 'my') ? 'my' : 'en';
+                document.querySelectorAll('[data-en]').forEach(function (e) { e.textContent = e.getAttribute('data-' + g) });
+                document.querySelectorAll('[data-l]').forEach(function (x) { var on = x.getAttribute('data-l') === g; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on) });
+                try { localStorage.setItem('lang', g) } catch (e) { }
+            }
+            document.querySelectorAll('[data-l]').forEach(function (x) { x.addEventListener('click', function () { apply(x.getAttribute('data-l')) }) });
+            apply(get());
+        })();
+    </script>
+</body>
+
+</html>
